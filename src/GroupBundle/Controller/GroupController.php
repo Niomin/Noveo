@@ -2,21 +2,24 @@
 
 namespace GroupBundle\Controller;
 
-use Exception;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Components\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class GroupController extends Controller
 {
+    protected function getModel()
+    {
+        return $this->get('group.model');
+    }
+
     /**
      * @Route("/groups/", methods={"GET"})
      */
     public function listAction()
     {
-        $groups = $this->get('doctrine')->getRepository('AppBundle:Group')->findAll();
-        return new JsonResponse($groups);
+        return parent::listAction();
     }
 
     /**
@@ -24,17 +27,7 @@ class GroupController extends Controller
      */
     public function viewAction($id)
     {
-        try {
-
-            $group = $this->get('group.model')->get($id);
-
-        } catch (Exception $e) {
-
-            return new JsonResponse(['code' => $e->getCode(), 'message' => $e->getMessage()], 500);
-
-        }
-
-        return new JsonResponse($group);
+        return parent::viewAction($id);
     }
 
     /**
@@ -44,17 +37,7 @@ class GroupController extends Controller
      */
     public function createAction(Request $request)
     {
-        try {
-
-            $group = $this->get('group.model')->create($request);
-
-        } catch (Exception $e) {
-
-            return new JsonResponse(['code' => $e->getCode(), 'message' => $e->getMessage()], 500);
-
-        }
-
-        return new JsonResponse($group);
+        return parent::createAction($request);
     }
 
     /**
@@ -64,16 +47,6 @@ class GroupController extends Controller
      */
     public function modifyAction(Request $request, $id)
     {
-        try {
-
-            $group = $this->get('group.model')->update($request, $id);
-
-        } catch (Exception $e) {
-
-            return new JsonResponse(['code' => $e->getCode(), 'message' => $e->getMessage()], 500);
-
-        }
-
-        return $group;
+        return parent::modifyAction($request, $id);
     }
 }

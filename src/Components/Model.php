@@ -66,4 +66,9 @@ abstract class Model
 
         return $group;
     }
+
+    public function findAll()
+    {
+        return $this->repository->findAll();
+    }
 }
