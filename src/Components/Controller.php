@@ -62,6 +62,6 @@ abstract class Controller extends BaseController
 
         }
 
-        return $user;
+        return new JsonResponse($user);
     }
 }
