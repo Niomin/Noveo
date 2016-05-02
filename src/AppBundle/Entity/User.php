@@ -4,11 +4,12 @@ namespace AppBundle\Entity;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 /**
  * @ORM\Entity
  */
-class User
+class User implements JsonSerializable
 {
     /**
      * @var int
@@ -20,7 +21,7 @@ class User
 
     /**
      * @var string
-     * @ORM\Column(type="email")
+     * @ORM\Column(type="string")
      */
     private $email;
 
@@ -38,13 +39,13 @@ class User
 
     /**
      * @var bool
-     * @ORM\Column(type="bool")
+     * @ORM\Column(type="boolean")
      */
     private $state;
 
     /**
      * @var DateTimeImmutable
-     * @ORM\Column(type="dateCreate")
+     * @ORM\Column(type="datetimetz")
      */
     private $dateCreate;
 
@@ -155,4 +156,16 @@ class User
         $this->group = $group;
     }
 
+    function jsonSerialize()
+    {
+        return [
+            'id'         => $this->id,
+            'email'      => $this->email,
+            'firstName'  => $this->firstName,
+            'lastName'   => $this->lastName,
+            'state'      => $this->state,
+            'group'      => $this->group,
+            'dateCreate' => $this->dateCreate,
+        ];
+    }
 }

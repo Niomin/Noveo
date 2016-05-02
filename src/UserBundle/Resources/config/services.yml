@@ -1,0 +1,7 @@
+services:
+    user.model:
+        class: UserBundle\Service\UserModel
+        arguments:
+            - "@user.repository"
+            - "@entity.manager"
+            - "@group.model"

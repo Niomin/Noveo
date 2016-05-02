@@ -3,11 +3,12 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 /**
  * @ORM\Entity
  */
-class Group
+class Group implements JsonSerializable
 {
     /**
      * @var int
@@ -45,6 +46,14 @@ class Group
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    function jsonSerialize()
+    {
+        return [
+            'id'   => $this->id,
+            'name' => $this->name,
+        ];
     }
 
 }

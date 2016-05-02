@@ -1,0 +1,16 @@
+services:
+    user.repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", "getRepository"]
+        arguments:
+            - AppBundle:User
+
+    entity.manager:
+        class: Doctrine\ORM\EntityManager
+        factory: ["@doctrine", "getManager"]
+
+    group.repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", "getRepository"]
+        arguments:
+            - AppBundle:Group

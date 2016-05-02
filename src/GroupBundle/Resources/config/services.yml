@@ -1,0 +1,6 @@
+services:
+    group.model:
+        class: GroupBundle\Service\GroupModel
+        arguments:
+            - "@group.repository"
+            - "@entity.manager"
