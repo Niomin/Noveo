@@ -2,7 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use JsonSerializable;
 
 /**
@@ -23,6 +25,17 @@ class Group implements JsonSerializable
      * @ORM\Column(type="string")
      */
     private $name;
+
+    /**
+     * @var PersistentCollection
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="group")
+     */
+    private $users;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -53,6 +66,7 @@ class Group implements JsonSerializable
         return [
             'id'   => $this->id,
             'name' => $this->name,
+            'users' => $this->users,
         ];
     }
 

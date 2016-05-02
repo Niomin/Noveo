@@ -164,7 +164,7 @@ class User implements JsonSerializable
             'firstName'  => $this->firstName,
             'lastName'   => $this->lastName,
             'state'      => $this->state,
-            'group'      => $this->group,
+            'group'      => $this->group->getName(),
             'dateCreate' => $this->dateCreate,
         ];
     }
