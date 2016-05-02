@@ -52,7 +52,7 @@ class UserModel extends Model
         foreach ($params as $param) {
             if ($request->get($param)) {
                 $method = 'set' . ucfirst($param);
-                $user->$method($request->get('param'));
+                $user->$method($request->get($param));
             }
         }
         if ($request->get('group')) {
