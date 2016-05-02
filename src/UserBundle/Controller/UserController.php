@@ -26,7 +26,7 @@ class UserController extends Controller
     {
         try {
 
-            $user = $this->get('user.model')->getUser($id);
+            $user = $this->get('user.model')->get($id);
 
         } catch (Exception $e) {
 
@@ -46,7 +46,7 @@ class UserController extends Controller
     {
         try {
 
-            $user = $this->get('user.model')->createUser($request);
+            $user = $this->get('user.model')->create($request);
 
         } catch (Exception $e) {
 
@@ -66,7 +66,7 @@ class UserController extends Controller
     {
         try {
 
-            $user = $this->get('user.model')->updateUser($request, $id);
+            $user = $this->get('user.model')->update($request, $id);
 
         } catch (Exception $e) {
 

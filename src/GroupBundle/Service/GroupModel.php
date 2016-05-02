@@ -3,66 +3,41 @@
 namespace GroupBundle\Service;
 
 use AppBundle\Entity\Group;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
+use Components\Model;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
 
-class GroupModel
+class GroupModel extends Model
 {
-    /** @var EntityRepository */
-    private $repository;
-
-    /** @var EntityManager */
-    private $em;
-
-    /**
-     * @param EntityRepository $repository
-     * @param EntityManager $em
-     */
-    public function __construct(EntityRepository $repository, EntityManager $em)
-    {
-        $this->repository = $repository;
-        $this->em = $em;
-    }
-
-    public function createGroup(Request $request)
+    public function createEntity(Request $request)
     {
         $group = new Group();
 
         $group->setName($request->get('name'));
 
-        $this->em->persist($group);
-        $this->em->flush($group);
-
         return $group;
     }
 
-    public function updateGroup(Request $request, $id)
+    /**
+     * @param Request $request
+     * @param Group $group
+     */
+    public function updateEntity(Request $request, $group)
     {
-        $group = $this->getGroup($id);
-
         $group->setName($request->get('name'));
+    }
 
-        $this->em->persist($group);
-        $this->em->flush($group);
-
-        return $group;
+    public function throwNotFound()
+    {
+        throw new Exception('Group not found!', 2);
     }
 
     /**
      * @param $id
      * @return Group
-     * @throws Exception
      */
-    public function getGroup($id)
+    public function get($id)
     {
-        $group = $this->repository->find($id);
-
-        if (!$group) {
-            throw new Exception('Group not found!', 2);
-        }
-
-        return $group;
+        return parent::get($id);
     }
 }

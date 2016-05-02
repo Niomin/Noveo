@@ -26,7 +26,7 @@ class GroupController extends Controller
     {
         try {
 
-            $group = $this->get('group.model')->getGroup($id);
+            $group = $this->get('group.model')->get($id);
 
         } catch (Exception $e) {
 
@@ -46,7 +46,7 @@ class GroupController extends Controller
     {
         try {
 
-            $group = $this->get('group.model')->createGroup($request);
+            $group = $this->get('group.model')->create($request);
 
         } catch (Exception $e) {
 
@@ -66,7 +66,7 @@ class GroupController extends Controller
     {
         try {
 
-            $group = $this->get('group.model')->updateGroup($request, $id);
+            $group = $this->get('group.model')->update($request, $id);
 
         } catch (Exception $e) {
 

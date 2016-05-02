@@ -3,37 +3,30 @@
 namespace UserBundle\Service;
 
 use AppBundle\Entity\User;
+use Components\Model;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Exception;
 use GroupBundle\Service\GroupModel;
 use Symfony\Component\HttpFoundation\Request;
 
-class UserModel
+class UserModel extends Model
 {
-    /** @var EntityRepository */
-    private $repository;
-
-    /** @var EntityManager */
-    private $em;
-
     /** @var GroupModel */
     private $groupModel;
 
     /**
-     * UserModel constructor.
      * @param EntityRepository $repository
      * @param EntityManager $em
      * @param GroupModel $groupModel
      */
     public function __construct(EntityRepository $repository, EntityManager $em, GroupModel $groupModel)
     {
-        $this->repository = $repository;
-        $this->em = $em;
+        parent::__construct($repository, $em);
         $this->groupModel = $groupModel;
     }
 
-    public function createUser(Request $request)
+    public function createEntity(Request $request)
     {
         $user = new User();
         $user->setEmail($request->get('email'));
@@ -41,25 +34,19 @@ class UserModel
         $user->setLastName($request->get('lastName'));
         $user->setState($request->get('state'));
 
-        $group = $this->groupModel->getGroup($request->get('group'));
+        $group = $this->groupModel->get($request->get('group'));
         $user->setGroup($group);
-
-        $this->em->persist($user);
-        $this->em->flush($user);
 
         return $user;
     }
 
     /**
      * @param Request $request
-     * @param int $id
+     * @param User $user
      * @return User
-     * @throws Exception
      */
-    public function updateUser(Request $request, $id)
+    public function updateEntity(Request $request, $user)
     {
-        $user = $this->getUser($id);
-
         $params = ['firstName', 'lastName', 'state', 'email'];
 
         foreach ($params as $param) {
@@ -69,7 +56,7 @@ class UserModel
             }
         }
         if ($request->get('group')) {
-            $group = $this->groupModel->getGroup($request->get('group'));
+            $group = $this->groupModel->get($request->get('group'));
             $user->setGroup($group);
         }
 
@@ -81,14 +68,15 @@ class UserModel
      * @return User
      * @throws Exception
      */
-    public function getUser($id)
+    public function get($id)
     {
-        $user = $this->repository->find($id);
-        if (!$user) {
-            throw new Exception('User not found', -1);
-        }
-
-        return $user;
+        return parent::get($id);
     }
+
+    protected function throwNotFound()
+    {
+        throw new Exception('User not found!');
+    }
+
 
 }
