@@ -9,6 +9,7 @@ use JsonSerializable;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="group_")
  */
 class Group implements JsonSerializable
 {
